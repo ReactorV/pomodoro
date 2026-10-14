@@ -1,0 +1,167 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: flex-end;
+  background: rgba(5, 7, 12, 0.72);
+}
+
+.panel {
+  width: 400px;
+  max-width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  background: #111725;
+  border-left: 1px solid var(--slate);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.close {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--slate);
+  border-radius: 12px;
+  background: transparent;
+  color: var(--haze);
+  cursor: pointer;
+}
+
+.fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fieldset legend {
+  padding: 0;
+  margin-bottom: 12px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fog);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.dotLabel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+}
+
+.plainLabel {
+  font-size: 15px;
+  color: var(--haze);
+}
+
+.number {
+  width: 88px;
+  height: 44px;
+  border: 1px solid var(--slate);
+  border-radius: var(--radius-s);
+  background: var(--night);
+  color: var(--mist);
+  font-family: var(--font-mono);
+  font-size: 17px;
+  text-align: center;
+}
+
+.toggle {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.toggle input {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--accent);
+}
+
+.volume {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 8px;
+}
+
+.volumeHead {
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+}
+
+.volumeHead output {
+  font-family: var(--font-mono);
+  color: var(--fog);
+}
+
+.volume input {
+  width: 100%;
+  margin: 0;
+  accent-color: var(--accent);
+}
+
+.actions {
+  margin-top: auto;
+  display: flex;
+  gap: 12px;
+}
+
+.ghost,
+.save {
+  height: 48px;
+  padding: 0 18px;
+  border-radius: var(--radius-m);
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.ghost {
+  border: 1px solid var(--slate);
+  background: transparent;
+  color: var(--haze);
+  font-weight: 500;
+}
+
+.save {
+  flex-grow: 1;
+  border: 0;
+  background: var(--accent);
+  color: var(--night);
+  font-weight: 600;
+}

@@ -79,7 +79,7 @@ Every task is red → green → refactor: failing test first, then minimal code,
   - Verify: `npx vitest run src/components/HexCounter src/components/AlertBanner`
   - Files: `HexCounter.tsx`, `AlertBanner.tsx`, `feedback.module.css`, `HexCounter.test.tsx`, `AlertBanner.test.tsx`
 
-- [ ] 15. `SettingsPanel`
+- [x] 15. `SettingsPanel`
   - Acceptance: AC-4.5 (Save applies sanitized values, Defaults fills form), close button, Esc inside panel
   - Verify: `npx vitest run src/components/SettingsPanel`
   - Files: `SettingsPanel.tsx`, `SettingsPanel.module.css`, `SettingsPanel.test.tsx`
