@@ -97,5 +97,5 @@ Every task is red → green → refactor: failing test first, then minimal code,
   - Verify: `npm run build`; check `dist/manifest.webmanifest` fields and `dist/sw.js` precache list; `npm run preview` offline reload
   - Files: `public/favicon.svg`, `pwa-assets.config.ts`, `package.json` (generator script), `vite.config.ts`, `src/main.tsx`
 
-- [ ] 18. **Checkpoint D** — README (install on Mac, commands), full suite, lint, build, manual MacBook checklist
+- [x] 18. **Checkpoint D** — README (install on Mac, commands), full suite, lint, build, manual MacBook checklist
   - Files: `README.md`
