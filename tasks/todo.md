@@ -112,7 +112,7 @@ Every task is red → green → refactor: failing test first, then minimal code,
   - Verify: `npx vitest run src/notify/sound`
   - Files: `src/notify/sound.ts`, `src/notify/sound.test.ts`
 
-- [ ] 21. Settings panel: click toggle and volume preview
+- [x] 21. Settings panel: click toggle and volume preview
   - Acceptance: AC-5.10 (preview on drag, slider enabled if chime or clicks on), AC-5.9 (Defaults ticks; checkboxes silent)
   - Verify: `npx vitest run src/components/SettingsPanel`
   - Files: `src/components/SettingsPanel.tsx`, `src/components/SettingsPanel.test.tsx`

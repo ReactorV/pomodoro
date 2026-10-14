@@ -1,11 +1,12 @@
-import { useEffect, useId, useRef, useState, type FormEvent } from 'react'
+import { useEffect, useId, useMemo, useRef, useState, type FormEvent } from 'react'
+import { throttle } from '../notify/sound'
 import { DEFAULT_SETTINGS, sanitizeSettings, type Settings } from '../settings/settings'
 import { ACCENT } from '../styles/theme'
 import { CloseIcon, Diamond } from './icons'
 import styles from './SettingsPanel.module.css'
 
 type NumberField = 'focusMin' | 'shortMin' | 'longMin' | 'longEvery'
-type ToggleField = 'sound' | 'notifications' | 'badge' | 'flash'
+type ToggleField = 'sound' | 'clicks' | 'notifications' | 'badge' | 'flash'
 
 /** Number inputs are kept as text while editing, so an empty field is allowed until Save. */
 type Draft = Omit<Settings, NumberField> & Record<NumberField, string>
@@ -19,6 +20,7 @@ const NUMBER_FIELDS: { key: NumberField; label: string; min: number; max: number
 
 const TOGGLES: { key: ToggleField; label: string }[] = [
   { key: 'sound', label: 'Chime' },
+  { key: 'clicks', label: 'Click sounds' },
   { key: 'notifications', label: 'macOS notification' },
   { key: 'badge', label: 'Dock badge countdown' },
   { key: 'flash', label: 'Flash screen on finish' },
@@ -37,9 +39,15 @@ export interface SettingsPanelProps {
   settings: Settings
   onSave: (settings: Settings) => void
   onClose: () => void
+  /** Play a tick at this volume while the slider moves (throttled here, AC-5.10) */
+  onPreviewVolume?: (volume: number) => void
+  /** Tick for panel buttons handled inside the panel (Defaults) */
+  onTick?: () => void
 }
 
-export function SettingsPanel({ settings, onSave, onClose }: SettingsPanelProps) {
+const PREVIEW_MS = 120
+
+export function SettingsPanel({ settings, onSave, onClose, onPreviewVolume, onTick }: SettingsPanelProps) {
   const [draft, setDraft] = useState(() => toDraft(settings))
   const firstInput = useRef<HTMLInputElement>(null)
   const id = useId()
@@ -47,6 +55,12 @@ export function SettingsPanel({ settings, onSave, onClose }: SettingsPanelProps)
   useEffect(() => {
     firstInput.current?.focus()
   }, [])
+
+  const previewRef = useRef(onPreviewVolume)
+  useEffect(() => {
+    previewRef.current = onPreviewVolume
+  })
+  const preview = useMemo(() => throttle((volume: number) => previewRef.current?.(volume), PREVIEW_MS), [])
 
   const set = <K extends keyof Draft>(key: K, value: Draft[K]) => setDraft((d) => ({ ...d, [key]: value }))
 
@@ -96,7 +110,7 @@ export function SettingsPanel({ settings, onSave, onClose }: SettingsPanelProps)
                 {label}
                 <input type="checkbox" checked={draft[key]} onChange={(e) => set(key, e.target.checked)} />
               </label>
-              {key === 'sound' && (
+              {key === 'clicks' && (
                 <div className={styles.volume}>
                   <div className={styles.volumeHead}>
                     <label htmlFor={`${id}-volume`}>Volume</label>
@@ -108,8 +122,12 @@ export function SettingsPanel({ settings, onSave, onClose }: SettingsPanelProps)
                     min={0}
                     max={100}
                     value={draft.volume}
-                    disabled={!draft.sound}
-                    onChange={(e) => set('volume', Number(e.target.value))}
+                    disabled={!draft.sound && !draft.clicks}
+                    onChange={(e) => {
+                      const volume = Number(e.target.value)
+                      set('volume', volume)
+                      preview(volume)
+                    }}
                   />
                 </div>
               )}
@@ -118,7 +136,10 @@ export function SettingsPanel({ settings, onSave, onClose }: SettingsPanelProps)
         </fieldset>
 
         <div className={styles.actions}>
-          <button type="button" className={styles.ghost} onClick={() => setDraft(toDraft(DEFAULT_SETTINGS))}>
+          <button type="button" className={styles.ghost} onClick={() => {
+              onTick?.()
+              setDraft(toDraft(DEFAULT_SETTINGS))
+            }}>
             Defaults
           </button>
           <button type="submit" className={styles.save}>
