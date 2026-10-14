@@ -74,7 +74,7 @@ Every task is red → green → refactor: failing test first, then minimal code,
   - Verify: `npx vitest run src/components/ModeTabs src/components/Controls`
   - Files: `ModeTabs.tsx`, `Controls.tsx`, `controls.module.css`, `ModeTabs.test.tsx`, `Controls.test.tsx`
 
-- [ ] 14. `HexCounter` and `AlertBanner`
+- [x] 14. `HexCounter` and `AlertBanner`
   - Acceptance: AC-6.5 (`longEvery × 2` cells, filled count, label), AC-6.7 (`role="status"`, message text)
   - Verify: `npx vitest run src/components/HexCounter src/components/AlertBanner`
   - Files: `HexCounter.tsx`, `AlertBanner.tsx`, `feedback.module.css`, `HexCounter.test.tsx`, `AlertBanner.test.tsx`
