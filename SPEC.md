@@ -131,6 +131,7 @@ export type TimerAction =
 - **AC-3.5** `pause` while not `running` changes nothing.
 - **AC-3.6** `reset` sets status `idle` and remaining = full duration of the current mode. Mode does not change.
 - **AC-3.7** `skip` moves to the next mode (same rule as completion) with status `idle`, but does not count a focus session.
+  Skipping a long break resets the cycle count, like completing it.
 - **AC-3.8** `complete` after `focus` adds 1 to completed today and to the cycle count.
   The next mode is `long` when the cycle count reaches `longEvery`, else `short`.
 - **AC-3.9** `complete` after `short` or `long` moves to `focus`. After `long`, the cycle count goes back to 0.

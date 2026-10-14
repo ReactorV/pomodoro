@@ -10,7 +10,7 @@ Every task is red → green → refactor: failing test first, then minimal code,
   - Verify: `npx vitest run src/settings` (8 tests green)
   - Files: `src/settings/settings.ts`, `src/settings/settings.test.ts`
 
-- [ ] 2. Timer machine (pure reducer)
+- [x] 2. Timer machine (pure reducer)
   - Acceptance: AC-3.1 – AC-3.15 (reducer parts), AC-3.17
   - Verify: `npx vitest run src/timer/machine` red first (tests already written), then green
   - Files: `src/timer/machine.ts`, `src/timer/machine.test.ts`
