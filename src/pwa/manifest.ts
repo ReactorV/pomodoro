@@ -1,5 +1,7 @@
 import type { ManifestOptions } from 'vite-plugin-pwa'
-import { COLORS } from '../styles/theme'
+
+/** Same as COLORS.night; kept local so vite.config can load this file without relative imports. */
+const NIGHT = '#0B0F1A'
 
 /** Web app manifest (AC-8.1). Icons are generated from public/favicon.svg. */
 export const MANIFEST: Partial<ManifestOptions> = {
@@ -8,8 +10,8 @@ export const MANIFEST: Partial<ManifestOptions> = {
   description: 'Pomodoro timer with hexagon rhombus design',
   display: 'standalone',
   start_url: '/',
-  theme_color: COLORS.night,
-  background_color: COLORS.night,
+  theme_color: NIGHT,
+  background_color: NIGHT,
   icons: [
     { src: 'pwa-64x64.png', sizes: '64x64', type: 'image/png' },
     { src: 'pwa-192x192.png', sizes: '192x192', type: 'image/png' },
