@@ -92,7 +92,7 @@ Every task is red → green → refactor: failing test first, then minimal code,
 
 ## Phase 5 — PWA and finish
 
-- [ ] 17. Icons, manifest, service worker
+- [x] 17. Icons, manifest, service worker
   - Acceptance: AC-8.1, AC-8.2
   - Verify: `npm run build`; check `dist/manifest.webmanifest` fields and `dist/sw.js` precache list; `npm run preview` offline reload
   - Files: `public/favicon.svg`, `pwa-assets.config.ts`, `package.json` (generator script), `vite.config.ts`, `src/main.tsx`
