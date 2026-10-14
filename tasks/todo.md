@@ -69,7 +69,7 @@ Every task is red → green → refactor: failing test first, then minimal code,
   - Verify: `npx vitest run src/components/HexTimer`
   - Files: `src/components/HexTimer.tsx`, `HexTimer.module.css`, `HexTimer.test.tsx`
 
-- [ ] 13. `ModeTabs` and `Controls`
+- [x] 13. `ModeTabs` and `Controls`
   - Acceptance: AC-6.6 (`aria-pressed`), AC-6.4 (button labels), clicks call handlers
   - Verify: `npx vitest run src/components/ModeTabs src/components/Controls`
   - Files: `ModeTabs.tsx`, `Controls.tsx`, `controls.module.css`, `ModeTabs.test.tsx`, `Controls.test.tsx`
