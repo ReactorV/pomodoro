@@ -51,6 +51,8 @@ export function useHotkeys(handlers: HotkeyHandlers): void {
           h.skip()
           break
         case ',':
+          // The panel focuses its first input during this keydown; don't let the comma land in it.
+          event.preventDefault()
           h.openSettings()
           break
       }

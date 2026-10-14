@@ -1,6 +1,4 @@
 import { describe, expect, it } from 'vitest'
-import { DEFAULT_SETTINGS } from '../settings/settings'
-import { initialState, reducer } from '../timer/machine'
 import { MODE_LABEL, badgeMinutes, documentTitle, formatClock } from './format'
 
 const MIN = 60_000
@@ -29,20 +27,17 @@ describe('formatClock', () => {
 })
 
 describe('documentTitle', () => {
-  const idle = initialState(DEFAULT_SETTINGS, '2026-10-14')
-
   it('AC-5.7 shows the countdown and mode while running', () => {
-    const running = reducer(idle, { type: 'start', now: 0 })
-    expect(documentTitle(running, 8 * MIN + 45_000)).toBe('▶ 16:15 · Focus')
+    expect(documentTitle('running', 'focus', 16 * MIN + 15_000)).toBe('▶ 16:15 · Focus')
   })
 
   it('AC-5.7 names break modes', () => {
-    const running = reducer(reducer(idle, { type: 'setMode', mode: 'short' }), { type: 'start', now: 0 })
-    expect(documentTitle(running, 0)).toBe('▶ 05:00 · Short break')
+    expect(documentTitle('running', 'short', 5 * MIN)).toBe('▶ 05:00 · Short break')
   })
 
   it('AC-5.7 shows the app name when not running', () => {
-    expect(documentTitle(idle, 0)).toBe('Hex Pomodoro')
+    expect(documentTitle('idle', 'focus', 25 * MIN)).toBe('Hex Pomodoro')
+    expect(documentTitle('paused', 'focus', 3 * MIN)).toBe('Hex Pomodoro')
   })
 })
 

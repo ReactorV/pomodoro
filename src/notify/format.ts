@@ -1,4 +1,4 @@
-import { remainingAt, type Mode, type TimerState } from '../timer/machine'
+import type { Mode, Status } from '../timer/machine'
 
 export const APP_NAME = 'Hex Pomodoro'
 
@@ -16,11 +16,19 @@ export function formatClock(ms: number): string {
   return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
 }
 
-export function documentTitle(state: TimerState, now: number): string {
-  if (state.status !== 'running') return APP_NAME
-  return `▶ ${formatClock(remainingAt(state, now))} · ${MODE_LABEL[state.mode]}`
+export function documentTitle(status: Status, mode: Mode, remainingMs: number): string {
+  if (status !== 'running') return APP_NAME
+  return `▶ ${formatClock(remainingMs)} · ${MODE_LABEL[mode]}`
 }
 
 export function badgeMinutes(ms: number): number {
   return Math.max(0, Math.ceil(ms / 60_000))
+}
+
+/** Primary button text (AC-6.4). After a completion, `mode` is the session that comes next. */
+export function primaryLabel(status: Status, finished: Mode | null, mode: Mode): string {
+  if (finished) return mode === 'focus' ? 'Start focus' : 'Start break'
+  if (status === 'running') return 'Pause'
+  if (status === 'paused') return 'Resume'
+  return 'Start'
 }

@@ -84,7 +84,7 @@ Every task is red → green → refactor: failing test first, then minimal code,
   - Verify: `npx vitest run src/components/SettingsPanel`
   - Files: `SettingsPanel.tsx`, `SettingsPanel.module.css`, `SettingsPanel.test.tsx`
 
-- [ ] 16. `App` wiring
+- [x] 16. `App` wiring
   - Acceptance: AC-4.4 (open via button and `,`), AC-5.2/5.3 on first Start, AC-5.1/5.4/5.6 on completion, AC-5.7/5.8 while running,
     AC-6.8 (compact below 520 px), full flow focus → short break → focus
   - Verify: `npx vitest run src/App`; **Checkpoint C**: `npm test`, `npm run lint`, `npm run build`, Playwright run of `npm run dev` with screenshots

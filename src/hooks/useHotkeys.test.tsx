@@ -35,6 +35,14 @@ describe('useHotkeys', () => {
     expect(h.closeSettings).toHaveBeenCalledTimes(1)
   })
 
+  it('AC-7.1 comma opens settings without typing a comma into the focused field', () => {
+    const h = setup()
+    const event = new KeyboardEvent('keydown', { key: ',', bubbles: true, cancelable: true })
+    document.body.dispatchEvent(event)
+    expect(h.openSettings).toHaveBeenCalledTimes(1)
+    expect(event.defaultPrevented).toBe(true)
+  })
+
   it('AC-7.2 ignores keys typed into an input', () => {
     const h = setup()
     const { getByRole } = render(<input aria-label="Focus minutes" />)

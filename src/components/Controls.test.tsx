@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
-import { Controls, primaryLabel } from './Controls'
+import { primaryLabel } from '../notify/format'
+import { Controls } from './Controls'
 
 describe('primaryLabel', () => {
   it('AC-6.4 reads Start when idle', () => {
