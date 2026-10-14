@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { DEFAULT_SETTINGS } from '../settings/settings'
-import { createChime, playCompletionChime } from './sound'
+import { createChime, playClick, playCompletionChime, throttle } from './sound'
 
 /** Minimal in-memory Web Audio fake that records what was scheduled. */
 class FakeAudioContext {
@@ -127,5 +127,68 @@ describe('playCompletionChime', () => {
     await chime.unlock()
     playCompletionChime(chime, 'short', { ...DEFAULT_SETTINGS, sound: false })
     expect(contexts[0].notes).toHaveLength(0)
+  })
+})
+
+describe('click tick', () => {
+  it('AC-5.9 plays one short high note', async () => {
+    const { chime, contexts } = setup()
+    await chime.unlock()
+    chime.tick(70)
+    expect(contexts[0].notes).toHaveLength(1)
+    expect(contexts[0].notes[0].started).toBe(true)
+    expect(contexts[0].notes[0].frequency).toBeGreaterThan(2000)
+  })
+
+  it('AC-5.9 is softer than the chime at the same volume', async () => {
+    const { chime, contexts } = setup()
+    await chime.unlock()
+    chime.tick(100)
+    chime.play('focus', 100)
+    expect(contexts[0].notes[0].peak).toBeLessThan(contexts[0].notes[1].peak)
+  })
+
+  it('AC-5.10 scales with the shared volume', async () => {
+    const { chime, contexts } = setup()
+    await chime.unlock()
+    chime.tick(100)
+    chime.tick(25)
+    expect(contexts[0].notes[1].peak).toBeCloseTo(contexts[0].notes[0].peak / 4)
+  })
+
+  it('AC-5.9 volume 0 plays nothing', async () => {
+    const { chime, contexts } = setup()
+    await chime.unlock()
+    chime.tick(0)
+    expect(contexts[0].notes).toHaveLength(0)
+  })
+})
+
+describe('playClick', () => {
+  it('AC-5.2 AC-5.9 unlocks audio and ticks when click sounds are on', () => {
+    const { chime, contexts } = setup()
+    playClick(chime, DEFAULT_SETTINGS)
+    expect(contexts[0].resumed).toBe(1)
+    expect(contexts[0].notes).toHaveLength(1)
+  })
+
+  it('AC-5.9 stays silent when click sounds are off', () => {
+    const { chime, contexts } = setup()
+    playClick(chime, { ...DEFAULT_SETTINGS, clicks: false })
+    expect(contexts).toHaveLength(0)
+  })
+})
+
+describe('throttle', () => {
+  it('AC-5.10 runs at most once per wait period', () => {
+    let now = 0
+    const calls: number[] = []
+    const preview = throttle((v: number) => calls.push(v), 120, () => now)
+    preview(10)
+    now = 50
+    preview(20)
+    now = 130
+    preview(30)
+    expect(calls).toEqual([10, 30])
   })
 })

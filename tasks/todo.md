@@ -107,7 +107,7 @@ Every task is red → green → refactor: failing test first, then minimal code,
   - Verify: `npx vitest run src/settings`
   - Files: `src/settings/settings.ts`, `src/settings/settings.test.ts`
 
-- [ ] 20. Glass tick and preview throttle
+- [x] 20. Glass tick and preview throttle
   - Acceptance: AC-5.9 (one short high note at volume, silent when off or volume 0), AC-5.10 (throttle 120 ms), AC-5.2 (click unlocks audio)
   - Verify: `npx vitest run src/notify/sound`
   - Files: `src/notify/sound.ts`, `src/notify/sound.test.ts`

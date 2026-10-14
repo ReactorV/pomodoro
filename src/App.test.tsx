@@ -18,6 +18,9 @@ function fakeChime() {
     play: (kind) => {
       played.push(kind)
     },
+    tick: (volume) => {
+      played.push(`tick@${volume}`)
+    },
   }
   return { chime, played, unlocked: () => unlocked }
 }
