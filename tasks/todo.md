@@ -64,7 +64,7 @@ Every task is red → green → refactor: failing test first, then minimal code,
   - Verify: `npm run build`; no `fonts.googleapis.com` in `dist/`
   - Files: `src/styles/tokens.css`, `src/styles/global.css`, `src/main.tsx`, `index.html`
 
-- [ ] 12. `HexTimer` component
+- [x] 12. `HexTimer` component
   - Acceptance: AC-6.1 (3 rhombus faces, progress line, lit markers), AC-6.2 (time text), accessible label
   - Verify: `npx vitest run src/components/HexTimer`
   - Files: `src/components/HexTimer.tsx`, `HexTimer.module.css`, `HexTimer.test.tsx`

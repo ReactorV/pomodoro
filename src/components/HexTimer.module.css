@@ -1,0 +1,48 @@
+.timer {
+  display: block;
+  width: 100%;
+  max-width: var(--timer-max, 500px);
+  height: auto;
+  overflow: visible;
+}
+
+.status {
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 4px;
+}
+
+.time {
+  font-family: var(--font-mono);
+  font-size: 84px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.subtitle {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 4px;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.echo {
+  animation: pulse 1.6s ease-in-out 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .echo {
+    animation: none;
+  }
+}
