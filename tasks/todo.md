@@ -42,7 +42,7 @@ Every task is red → green → refactor: failing test first, then minimal code,
 
 ## Phase 3 — Browser adapters
 
-- [ ] 8. Chime
+- [x] 8. Chime
   - Acceptance: AC-5.1 (3 notes, volume, different focus/break chimes, silent when off), AC-5.2 (context created/resumed by `unlockAudio()`)
   - Verify: `npx vitest run src/notify/sound` with a fake `AudioContext`
   - Files: `src/notify/sound.ts`, `src/notify/sound.test.ts`
