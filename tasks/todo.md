@@ -32,13 +32,13 @@ Every task is red → green → refactor: failing test first, then minimal code,
 
 ## Phase 2 — Timer hook
 
-- [ ] 6. `useTimer` hook
+- [x] 6. `useTimer` hook
   - Acceptance: AC-3.15 (completion timeout, tick, `visibilitychange`), AC-3.14 (date change), AC-3.16 (saves on change),
     calls `onComplete(finished, next)` once per completion
   - Verify: `npx vitest run src/timer/useTimer` with `vi.useFakeTimers()` and a fake clock
   - Files: `src/timer/useTimer.ts`, `src/timer/useTimer.test.ts`
 
-- [ ] 7. **Checkpoint A** — `npm test` green, `npm run build` passes
+- [x] 7. **Checkpoint A** — `npm test` green, `npm run build` passes
 
 ## Phase 3 — Browser adapters
 
