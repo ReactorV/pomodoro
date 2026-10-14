@@ -102,7 +102,7 @@ Every task is red → green → refactor: failing test first, then minimal code,
 
 ## Phase 6 — Click sounds (AC-5.9, AC-5.10)
 
-- [ ] 19. Settings: `clicks` flag (default on)
+- [x] 19. Settings: `clicks` flag (default on)
   - Acceptance: AC-4.1 (new default), AC-4.2 (boolean sanitizing)
   - Verify: `npx vitest run src/settings`
   - Files: `src/settings/settings.ts`, `src/settings/settings.test.ts`

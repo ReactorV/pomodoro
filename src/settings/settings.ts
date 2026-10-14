@@ -4,7 +4,9 @@ export interface Settings {
   longMin: number
   longEvery: number
   sound: boolean
-  /** Chime volume, 0–100 % */
+  /** Glass tick on buttons and shortcuts */
+  clicks: boolean
+  /** Volume for chime and clicks, 0–100 % */
   volume: number
   notifications: boolean
   badge: boolean
@@ -19,6 +21,7 @@ export const DEFAULT_SETTINGS: Readonly<Settings> = Object.freeze({
   longMin: 15,
   longEvery: 4,
   sound: true,
+  clicks: true,
   volume: 70,
   notifications: true,
   badge: true,
@@ -26,7 +29,7 @@ export const DEFAULT_SETTINGS: Readonly<Settings> = Object.freeze({
 })
 
 type NumberKey = 'focusMin' | 'shortMin' | 'longMin' | 'longEvery' | 'volume'
-type BooleanKey = 'sound' | 'notifications' | 'badge' | 'flash'
+type BooleanKey = 'sound' | 'clicks' | 'notifications' | 'badge' | 'flash'
 
 const LIMITS: Record<NumberKey, [min: number, max: number]> = {
   focusMin: [1, 120],
@@ -36,7 +39,7 @@ const LIMITS: Record<NumberKey, [min: number, max: number]> = {
   volume: [0, 100],
 }
 
-const BOOLEAN_KEYS: BooleanKey[] = ['sound', 'notifications', 'badge', 'flash']
+const BOOLEAN_KEYS: BooleanKey[] = ['sound', 'clicks', 'notifications', 'badge', 'flash']
 
 function toNumber(value: unknown, key: NumberKey): number {
   if (typeof value !== 'number' || !Number.isFinite(value)) return DEFAULT_SETTINGS[key]

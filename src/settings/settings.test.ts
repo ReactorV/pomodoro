@@ -9,6 +9,7 @@ describe('settings', () => {
       longMin: 15,
       longEvery: 4,
       sound: true,
+      clicks: true,
       volume: 70,
       notifications: true,
       badge: true,
@@ -26,15 +27,16 @@ describe('settings', () => {
   })
 
   it('AC-4.2 falls back to defaults for values that are not numbers or booleans', () => {
-    const s = sanitizeSettings({ focusMin: 'abc', longEvery: null, sound: 'yes', volume: Number.NaN })
+    const s = sanitizeSettings({ focusMin: 'abc', longEvery: null, sound: 'yes', clicks: 1, volume: Number.NaN })
     expect(s.focusMin).toBe(25)
     expect(s.longEvery).toBe(4)
     expect(s.sound).toBe(true)
+    expect(s.clicks).toBe(true)
     expect(s.volume).toBe(70)
   })
 
   it('AC-4.2 keeps valid booleans', () => {
-    expect(sanitizeSettings({ sound: false, flash: false })).toMatchObject({ sound: false, flash: false })
+    expect(sanitizeSettings({ sound: false, clicks: false, flash: false })).toMatchObject({ sound: false, clicks: false, flash: false })
   })
 
   it('AC-4.3 loads defaults when storage is empty', () => {
