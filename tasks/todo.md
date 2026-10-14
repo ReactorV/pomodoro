@@ -117,7 +117,7 @@ Every task is red → green → refactor: failing test first, then minimal code,
   - Verify: `npx vitest run src/components/SettingsPanel`
   - Files: `src/components/SettingsPanel.tsx`, `src/components/SettingsPanel.test.tsx`
 
-- [ ] 22. App: ticks on buttons and shortcuts
+- [x] 22. App: ticks on buttons and shortcuts
   - Acceptance: AC-5.9 (each trigger, mouse and keyboard; Esc silent when closed; off when setting off)
   - Verify: `npx vitest run src/App`; full suite, lint, build; browser check
   - Files: `src/App.tsx`, `src/App.test.tsx`

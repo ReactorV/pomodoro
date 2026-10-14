@@ -1,4 +1,4 @@
-import { act, render, screen, within } from '@testing-library/react'
+import { act, fireEvent, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { App } from './App'
@@ -10,6 +10,7 @@ const MIN = 60_000
 
 function fakeChime() {
   const played: string[] = []
+  const ticks: number[] = []
   let unlocked = 0
   const chime: Chime = {
     unlock: async () => {
@@ -19,10 +20,10 @@ function fakeChime() {
       played.push(kind)
     },
     tick: (volume) => {
-      played.push(`tick@${volume}`)
+      ticks.push(volume)
     },
   }
-  return { chime, played, unlocked: () => unlocked }
+  return { chime, played, ticks, unlocked: () => unlocked }
 }
 
 function fakeEnv() {
@@ -204,5 +205,55 @@ describe('App', () => {
     setup()
     expect(screen.getByRole('group', { name: 'Timer mode' })).toBeInTheDocument()
     expect(screen.getByText('start / pause')).toBeInTheDocument()
+  })
+
+  describe('click sounds', () => {
+    it('AC-5.9 ticks at the set volume for Start, Reset, Skip, a tab and Settings', async () => {
+      const { user, sound } = setup()
+      await user.click(screen.getByRole('button', { name: 'Start' }))
+      await user.click(screen.getByRole('button', { name: 'Reset' }))
+      await user.click(screen.getByRole('button', { name: 'Skip to next session' }))
+      await user.click(screen.getByRole('button', { name: 'Long break' }))
+      await user.click(screen.getByRole('button', { name: 'Settings' }))
+      expect(sound.ticks).toEqual([70, 70, 70, 70, 70])
+    })
+
+    it('AC-5.9 ticks for keyboard shortcuts, but Esc is silent when Settings is closed', async () => {
+      const { user, sound } = setup()
+      await user.keyboard(' ')
+      await user.keyboard('r')
+      await user.keyboard('s')
+      await user.keyboard(',')
+      await user.keyboard('{Escape}')
+      expect(sound.ticks).toHaveLength(5)
+      await user.keyboard('{Escape}')
+      expect(sound.ticks).toHaveLength(5)
+    })
+
+    it('AC-5.9 ticks for the panel close button, Defaults and Save', async () => {
+      const { user, sound } = setup()
+      await user.click(screen.getByRole('button', { name: 'Settings' }))
+      await user.click(screen.getByRole('button', { name: 'Close settings' }))
+      await user.click(screen.getByRole('button', { name: 'Settings' }))
+      await user.click(screen.getByRole('button', { name: 'Defaults' }))
+      await user.click(screen.getByRole('button', { name: 'Save' }))
+      expect(sound.ticks).toHaveLength(5)
+    })
+
+    it('AC-5.9 is silent when click sounds are off, but Start still unlocks audio', async () => {
+      saveSettings({ ...DEFAULT_SETTINGS, clicks: false })
+      const { user, sound } = setup()
+      await user.click(screen.getByRole('button', { name: 'Start' }))
+      await user.click(screen.getByRole('button', { name: 'Pause' }))
+      expect(sound.ticks).toEqual([])
+      expect(sound.unlocked()).toBeGreaterThanOrEqual(1)
+    })
+
+    it('AC-5.10 dragging the volume slider previews a tick at the new level', async () => {
+      const { user, sound } = setup()
+      await user.click(screen.getByRole('button', { name: 'Settings' }))
+      fireEvent.change(screen.getByLabelText('Volume'), { target: { value: '30' } })
+      expect(sound.ticks.at(-1)).toBe(30)
+    })
   })
 })

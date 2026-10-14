@@ -13,7 +13,7 @@ import { useMediaQuery } from './hooks/useMediaQuery'
 import { MODE_LABEL, documentTitle, primaryLabel } from './notify/format'
 import { completionMessage } from './notify/messages'
 import { applyBadge, badgeValue, browserEnv, notifyCompletion, requestPermissionOnce, type NotifyEnv } from './notify/notify'
-import { createChime, playCompletionChime, type Chime } from './notify/sound'
+import { createChime, playClick, playCompletionChime, type Chime } from './notify/sound'
 import { loadSettings, saveSettings, type Settings } from './settings/settings'
 import { ACCENT } from './styles/theme'
 import type { Mode, Status } from './timer/machine'
@@ -87,7 +87,11 @@ export function App({ chime: chimeProp, env: envProp }: AppProps) {
   const badge = badgeValue(state, remainingMs, settings)
   useEffect(() => applyBadge(badge, env), [badge, env])
 
+  /** Glass tick for a user action (AC-5.9) */
+  const click = (current: Settings = settings) => playClick(chime, current)
+
   const togglePrimary = () => {
+    click()
     if (state.status !== 'running') {
       // Start is a user gesture: unlock audio and ask for notifications here (AC-5.2, AC-5.3).
       void chime.unlock()
@@ -97,17 +101,45 @@ export function App({ chime: chimeProp, env: envProp }: AppProps) {
   }
 
   const saveNewSettings = (next: Settings) => {
+    click(next)
     saveSettings(next)
     setSettings(next)
     setSettingsOpen(false)
   }
 
+  const reset = () => {
+    click()
+    timer.reset()
+  }
+  const skip = () => {
+    click()
+    timer.skip()
+  }
+  const selectMode = (mode: Mode) => {
+    click()
+    timer.setMode(mode)
+  }
+  const openSettings = () => {
+    if (settingsOpen) return
+    click()
+    setSettingsOpen(true)
+  }
+  const closeSettings = () => {
+    if (!settingsOpen) return
+    click()
+    setSettingsOpen(false)
+  }
+  const previewVolume = (volume: number) => {
+    void chime.unlock()
+    chime.tick(volume)
+  }
+
   useHotkeys({
     toggle: () => !settingsOpen && togglePrimary(),
-    reset: () => !settingsOpen && timer.reset(),
-    skip: () => !settingsOpen && timer.skip(),
-    openSettings: () => setSettingsOpen(true),
-    closeSettings: () => setSettingsOpen(false),
+    reset: () => !settingsOpen && reset(),
+    skip: () => !settingsOpen && skip(),
+    openSettings,
+    closeSettings,
   })
 
   const accent = ACCENT[finished ?? state.mode]
@@ -125,7 +157,7 @@ export function App({ chime: chimeProp, env: envProp }: AppProps) {
             </svg>
             <span>Hex Pomodoro</span>
           </div>
-          <button type="button" className={styles.settingsButton} aria-label="Settings" onClick={() => setSettingsOpen(true)}>
+          <button type="button" className={styles.settingsButton} aria-label="Settings" onClick={openSettings}>
             <SettingsIcon size={20} />
           </button>
         </header>
@@ -134,7 +166,7 @@ export function App({ chime: chimeProp, env: envProp }: AppProps) {
           {message ? (
             <AlertBanner title={message.title} body={message.body} />
           ) : (
-            !compact && <ModeTabs mode={state.mode} onSelect={timer.setMode} />
+            !compact && <ModeTabs mode={state.mode} onSelect={selectMode} />
           )}
 
           <HexTimer
@@ -150,8 +182,8 @@ export function App({ chime: chimeProp, env: envProp }: AppProps) {
             primaryLabel={primaryLabel(state.status, finished, state.mode)}
             running={state.status === 'running'}
             onPrimary={togglePrimary}
-            onReset={timer.reset}
-            onSkip={timer.skip}
+            onReset={reset}
+            onSkip={skip}
           />
 
           <HexCounter done={state.completedToday} groupSize={settings.longEvery} />
@@ -169,7 +201,15 @@ export function App({ chime: chimeProp, env: envProp }: AppProps) {
         )}
       </div>
 
-      {settingsOpen && <SettingsPanel settings={settings} onSave={saveNewSettings} onClose={() => setSettingsOpen(false)} />}
+      {settingsOpen && (
+        <SettingsPanel
+          settings={settings}
+          onSave={saveNewSettings}
+          onClose={closeSettings}
+          onPreviewVolume={previewVolume}
+          onTick={() => click()}
+        />
+      )}
 
       {flash && <div key={flash.id} className="flash-overlay" style={{ '--flash-color': flash.color } as CSSProperties} aria-hidden="true" />}
     </div>
