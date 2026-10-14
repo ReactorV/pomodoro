@@ -1,4 +1,4 @@
-import { useEffect, useId, useMemo, useRef, useState, type FormEvent } from 'react'
+import { useEffect, useId, useRef, useState, type FormEvent } from 'react'
 import { throttle } from '../notify/sound'
 import { DEFAULT_SETTINGS, sanitizeSettings, type Settings } from '../settings/settings'
 import { ACCENT } from '../styles/theme'
@@ -56,11 +56,12 @@ export function SettingsPanel({ settings, onSave, onClose, onPreviewVolume, onTi
     firstInput.current?.focus()
   }, [])
 
-  const previewRef = useRef(onPreviewVolume)
-  useEffect(() => {
-    previewRef.current = onPreviewVolume
-  })
-  const preview = useMemo(() => throttle((volume: number) => previewRef.current?.(volume), PREVIEW_MS), [])
+  /** Created on first use (in an event handler), so the throttle survives re-renders */
+  const previewGate = useRef<((run: () => void) => void) | null>(null)
+  const preview = (volume: number) => {
+    previewGate.current ??= throttle((run: () => void) => run(), PREVIEW_MS)
+    previewGate.current(() => onPreviewVolume?.(volume))
+  }
 
   const set = <K extends keyof Draft>(key: K, value: Draft[K]) => setDraft((d) => ({ ...d, [key]: value }))
 
