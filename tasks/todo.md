@@ -52,7 +52,7 @@ Every task is red → green → refactor: failing test first, then minimal code,
   - Verify: `npx vitest run src/notify/notify` with fake `Notification`, registration, `navigator.setAppBadge`
   - Files: `src/notify/notify.ts`, `src/notify/notify.test.ts`
 
-- [ ] 10. Keyboard shortcuts
+- [x] 10. Keyboard shortcuts
   - Acceptance: AC-7.1, AC-7.2
   - Verify: `npx vitest run src/hooks/useHotkeys`
   - Files: `src/hooks/useHotkeys.ts`, `src/hooks/useHotkeys.test.ts`

@@ -191,7 +191,9 @@ export type TimerAction =
 ### 7. Keyboard
 
 - **AC-7.1** `Space` start/pause/resume, `R` reset, `S` skip, `,` open settings, `Esc` close settings.
-- **AC-7.2** Shortcuts do nothing while focus is in an input, select or textarea, or when ⌘, Ctrl or Alt is held.
+- **AC-7.2** Shortcuts do nothing while focus is in an input, select or textarea, or when ⌘, Ctrl or Alt is held,
+  or when the key auto-repeats. `Esc` still closes settings from an input.
+  `Space` on a focused button or link keeps its native action (no double toggle).
 
 ### 8. PWA
 
