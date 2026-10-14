@@ -1,0 +1,79 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-ui);
+  color: var(--mist);
+  /* Tumbling-block cubes (built from geometry/hex.ts) over film grain */
+  background-color: var(--night);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='.05'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38.11' height='66'%3E%3Cpath d='M0.00 11.00L19.05 0.00L38.11 11.00L19.05 22.00ZM-19.05 44.00L0.00 33.00L19.05 44.00L0.00 55.00ZM19.05 44.00L38.11 33.00L57.16 44.00L38.11 55.00ZM-19.05 -22.00L0.00 -33.00L19.05 -22.00L0.00 -11.00ZM19.05 -22.00L38.11 -33.00L57.16 -22.00L38.11 -11.00Z' fill='%23E6ECF5' fill-opacity='.05'/%3E%3Cpath d='M0.00 11.00L19.05 22.00L19.05 44.00L-0.00 33.00ZM-19.05 44.00L0.00 55.00L0.00 77.00L-19.05 66.00ZM19.05 44.00L38.11 55.00L38.11 77.00L19.05 66.00ZM-19.05 -22.00L0.00 -11.00L0.00 11.00L-19.05 -0.00ZM19.05 -22.00L38.11 -11.00L38.11 11.00L19.05 -0.00Z' fill='%23E6ECF5' fill-opacity='.026'/%3E%3Cpath d='M19.05 22.00L38.11 11.00L38.11 33.00L19.05 44.00ZM0.00 55.00L19.05 44.00L19.05 66.00L0.00 77.00ZM38.11 55.00L57.16 44.00L57.16 66.00L38.11 77.00ZM0.00 -11.00L19.05 -22.00L19.05 -0.00L0.00 11.00ZM38.11 -11.00L57.16 -22.00L57.16 -0.00L38.11 11.00Z' fill='%23E6ECF5' fill-opacity='.01'/%3E%3C/svg%3E");
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+kbd {
+  font-family: var(--font-mono);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Session-end flash (AC-5.6) */
+@keyframes flash {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  15%,
+  45% {
+    opacity: 0.22;
+  }
+  30% {
+    opacity: 0.08;
+  }
+}
+
+.flash-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: var(--flash-color, var(--accent));
+  opacity: 0;
+  animation: flash 3s ease-in-out forwards;
+  z-index: 20;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flash-overlay {
+    animation: none;
+    opacity: 0.14;
+  }
+}

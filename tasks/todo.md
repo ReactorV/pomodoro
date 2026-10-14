@@ -59,7 +59,7 @@ Every task is red → green → refactor: failing test first, then minimal code,
 
 ## Phase 4 — UI
 
-- [ ] 11. Design tokens, global styles, bundled fonts
+- [x] 11. Design tokens, global styles, bundled fonts
   - Acceptance: AC-6.3 (accent tokens), AC-8.3 (fonts from `@fontsource`), tumbling-block background, grain, reduced-motion rule
   - Verify: `npm run build`; no `fonts.googleapis.com` in `dist/`
   - Files: `src/styles/tokens.css`, `src/styles/global.css`, `src/main.tsx`, `index.html`

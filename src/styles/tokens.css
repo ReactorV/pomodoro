@@ -1,0 +1,28 @@
+:root {
+  /* Base palette (mirrors theme.ts COLORS) */
+  --night: #0B0F1A;
+  --ink: #121826;
+  --rain: #151C2B;
+  --slate: #24304A;
+  --edge: #2E3A55;
+  --fog: #8C96AB;
+  --haze: #C4CCDA;
+  --mist: #E6ECF5;
+
+  /* Mode accents (mirrors theme.ts ACCENT) */
+  --sodium: #F2A541;
+  --neon: #4FD1D9;
+  --violet: #9A8CE0;
+
+  /* Current accent, set per mode on the app root */
+  --accent: var(--sodium);
+
+  --font-ui: 'Space Grotesk Variable', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --radius-s: 10px;
+  --radius-m: 14px;
+  --radius-l: 18px;
+
+  color-scheme: dark;
+}
