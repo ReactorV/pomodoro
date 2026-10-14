@@ -47,7 +47,7 @@ Every task is red → green → refactor: failing test first, then minimal code,
   - Verify: `npx vitest run src/notify/sound` with a fake `AudioContext`
   - Files: `src/notify/sound.ts`, `src/notify/sound.test.ts`
 
-- [ ] 9. System notification, dock badge, document title
+- [x] 9. System notification, dock badge, document title
   - Acceptance: AC-5.3, AC-5.4, AC-5.7, AC-5.8 (missing APIs → no error)
   - Verify: `npx vitest run src/notify/notify` with fake `Notification`, registration, `navigator.setAppBadge`
   - Files: `src/notify/notify.ts`, `src/notify/notify.test.ts`
