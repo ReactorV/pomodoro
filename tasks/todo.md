@@ -25,7 +25,7 @@ Every task is red → green → refactor: failing test first, then minimal code,
   - Verify: `npx vitest run src/notify/format src/notify/messages`
   - Files: `src/notify/format.ts`, `src/notify/format.test.ts`, `src/notify/messages.ts`, `src/notify/messages.test.ts`
 
-- [ ] 5. Hexagon geometry
+- [x] 5. Hexagon geometry
   - Acceptance: AC-6.1 math — hexagon vertices clockwise from top, cube faces, progress polyline length ∝ progress, lit vertex markers
   - Verify: `npx vitest run src/geometry`
   - Files: `src/geometry/hex.ts`, `src/geometry/hex.test.ts`
