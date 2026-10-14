@@ -15,7 +15,7 @@ Every task is red → green → refactor: failing test first, then minimal code,
   - Verify: `npx vitest run src/timer/machine` red first (tests already written), then green
   - Files: `src/timer/machine.ts`, `src/timer/machine.test.ts`
 
-- [ ] 3. Timer persistence
+- [x] 3. Timer persistence
   - Acceptance: AC-3.16 (serialize, restore, broken data → initial state, settings re-applied)
   - Verify: `npx vitest run src/timer/persist`
   - Files: `src/timer/persist.ts`, `src/timer/persist.test.ts`
