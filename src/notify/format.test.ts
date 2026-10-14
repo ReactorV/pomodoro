@@ -1,0 +1,61 @@
+import { describe, expect, it } from 'vitest'
+import { DEFAULT_SETTINGS } from '../settings/settings'
+import { initialState, reducer } from '../timer/machine'
+import { MODE_LABEL, badgeMinutes, documentTitle, formatClock } from './format'
+
+const MIN = 60_000
+
+describe('formatClock', () => {
+  it('AC-6.2 shows whole minutes as MM:00', () => {
+    expect(formatClock(25 * MIN)).toBe('25:00')
+  })
+
+  it('AC-6.2 rounds up to the whole second', () => {
+    expect(formatClock(1)).toBe('00:01')
+    expect(formatClock(59_001)).toBe('01:00')
+  })
+
+  it('AC-6.2 shows zero as 00:00', () => {
+    expect(formatClock(0)).toBe('00:00')
+  })
+
+  it('AC-6.2 never shows negative time', () => {
+    expect(formatClock(-500)).toBe('00:00')
+  })
+
+  it('AC-6.2 keeps minutes above 99', () => {
+    expect(formatClock(120 * MIN)).toBe('120:00')
+  })
+})
+
+describe('documentTitle', () => {
+  const idle = initialState(DEFAULT_SETTINGS, '2026-10-14')
+
+  it('AC-5.7 shows the countdown and mode while running', () => {
+    const running = reducer(idle, { type: 'start', now: 0 })
+    expect(documentTitle(running, 8 * MIN + 45_000)).toBe('▶ 16:15 · Focus')
+  })
+
+  it('AC-5.7 names break modes', () => {
+    const running = reducer(reducer(idle, { type: 'setMode', mode: 'short' }), { type: 'start', now: 0 })
+    expect(documentTitle(running, 0)).toBe('▶ 05:00 · Short break')
+  })
+
+  it('AC-5.7 shows the app name when not running', () => {
+    expect(documentTitle(idle, 0)).toBe('Hex Pomodoro')
+  })
+})
+
+describe('badgeMinutes', () => {
+  it('AC-5.8 rounds minutes left up', () => {
+    expect(badgeMinutes(16 * MIN + 1)).toBe(17)
+    expect(badgeMinutes(MIN)).toBe(1)
+    expect(badgeMinutes(0)).toBe(0)
+  })
+})
+
+describe('MODE_LABEL', () => {
+  it('has a label for every mode', () => {
+    expect(MODE_LABEL).toEqual({ focus: 'Focus', short: 'Short break', long: 'Long break' })
+  })
+})

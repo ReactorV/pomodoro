@@ -20,7 +20,7 @@ Every task is red → green → refactor: failing test first, then minimal code,
   - Verify: `npx vitest run src/timer/persist`
   - Files: `src/timer/persist.ts`, `src/timer/persist.test.ts`
 
-- [ ] 4. Formatting and alert messages
+- [x] 4. Formatting and alert messages
   - Acceptance: AC-6.2 (`MM:SS`, round up), AC-5.7 (title text), AC-5.5 (notification title/body with minutes from settings)
   - Verify: `npx vitest run src/notify/format src/notify/messages`
   - Files: `src/notify/format.ts`, `src/notify/format.test.ts`, `src/notify/messages.ts`, `src/notify/messages.test.ts`
