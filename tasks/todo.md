@@ -99,3 +99,25 @@ Every task is red → green → refactor: failing test first, then minimal code,
 
 - [x] 18. **Checkpoint D** — README (install on Mac, commands), full suite, lint, build, manual MacBook checklist
   - Files: `README.md`
+
+## Phase 6 — Click sounds (AC-5.9, AC-5.10)
+
+- [ ] 19. Settings: `clicks` flag (default on)
+  - Acceptance: AC-4.1 (new default), AC-4.2 (boolean sanitizing)
+  - Verify: `npx vitest run src/settings`
+  - Files: `src/settings/settings.ts`, `src/settings/settings.test.ts`
+
+- [ ] 20. Glass tick and preview throttle
+  - Acceptance: AC-5.9 (one short high note at volume, silent when off or volume 0), AC-5.10 (throttle 120 ms), AC-5.2 (click unlocks audio)
+  - Verify: `npx vitest run src/notify/sound`
+  - Files: `src/notify/sound.ts`, `src/notify/sound.test.ts`
+
+- [ ] 21. Settings panel: click toggle and volume preview
+  - Acceptance: AC-5.10 (preview on drag, slider enabled if chime or clicks on), AC-5.9 (Defaults ticks; checkboxes silent)
+  - Verify: `npx vitest run src/components/SettingsPanel`
+  - Files: `src/components/SettingsPanel.tsx`, `src/components/SettingsPanel.test.tsx`
+
+- [ ] 22. App: ticks on buttons and shortcuts
+  - Acceptance: AC-5.9 (each trigger, mouse and keyboard; Esc silent when closed; off when setting off)
+  - Verify: `npx vitest run src/App`; full suite, lint, build; browser check
+  - Files: `src/App.tsx`, `src/App.test.tsx`

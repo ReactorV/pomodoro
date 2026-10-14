@@ -1,6 +1,6 @@
 # Spec: Hex Pomodoro
 
-Status: **APPROVED 2026-10-14** (spec-driven-development, Phase 1 done; plan in `tasks/plan.md`)
+Status: **APPROVED 2026-10-14**; AC-5.9/5.10 added 2026-10-14 after user decisions (shared slider, glass tick, buttons + shortcuts)
 Design: https://claude.ai/artifact/Ah4YrFm3E4UKdxqR6Fijav
 
 ## Scope check (Phase 0)
@@ -150,7 +150,7 @@ export type TimerAction =
 ### 4. Settings
 
 - **AC-4.1** Defaults: focus 25 min, short 5 min, long 15 min, long break after 4 focus sessions,
-  chime on, volume 70 %, macOS notification on, dock badge on, flash on.
+  chime on, click sounds on, volume 70 %, macOS notification on, dock badge on, flash on.
 - **AC-4.2** Limits: focus 1–120, short 1–60, long 1–60, long break after 2–8, volume 0–100 %.
   Values out of range are clamped; minutes are rounded. Values of the wrong type fall back to the default.
 - **AC-4.3** Settings persist in `localStorage`. Broken or missing stored data loads the defaults.
@@ -161,7 +161,8 @@ export type TimerAction =
 
 - **AC-5.1** On completion the app plays a 3-note chime when the chime setting is on, at the set volume.
   Focus end and break end use different chimes.
-- **AC-5.2** The audio context is created or resumed on the first user Start (browser autoplay rule).
+- **AC-5.2** The audio context is created or resumed on a user gesture (browser autoplay rule):
+  the first Start, and any click sound (AC-5.9).
 - **AC-5.3** On the first user Start the app asks for notification permission once, when it is still `default`.
 - **AC-5.4** On completion, with the setting on and permission `granted`, the app shows a system notification
   through the service worker registration, or `new Notification` when no registration exists.
@@ -171,6 +172,13 @@ export type TimerAction =
 - **AC-5.6** On completion, with flash on, the screen flashes in the accent color of the finished mode for 3 s.
   With `prefers-reduced-motion`, the flash is a static color change without animation.
 - **AC-5.7** While running, the document title is `▶ MM:SS · <Mode>`; otherwise it is `Hex Pomodoro`.
+- **AC-5.9** Click sounds: with click sounds on, a soft glass tick (one short high note, about 40 ms) plays at the
+  shared Volume when the user triggers Start/Pause/Resume, Reset, Skip, a mode tab, opening or closing Settings,
+  Save or Defaults — by mouse or by keyboard shortcut. Checkboxes and number fields stay silent.
+  Esc makes no sound when Settings is already closed.
+- **AC-5.10** Volume preview: one Volume slider sets the level of both the chime and the clicks.
+  Dragging it plays a tick at the slider's level (at most one every 120 ms), before Save.
+  The slider is enabled when the chime or click sounds are on.
 - **AC-5.8** While running, with dock badge on, the app badge shows the minutes left (rounded up);
   it is cleared when not running. Browsers without the Badging API ignore it without errors.
 
